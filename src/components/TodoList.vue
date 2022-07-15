@@ -22,7 +22,7 @@ function handleSubmit(){
         title:text.value,
         userId:6
     }
-    reactiveTodos.value.push();
+    reactiveTodos.value.push(addNewTodo);
 }
 
 function handleTodoItemCompleted(todoItemId,completed){
