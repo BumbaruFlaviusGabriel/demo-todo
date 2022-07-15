@@ -4,14 +4,25 @@ defineProps({
     title: String,
     completed: Boolean
 })
+
+const emit = defineEmits(['todoItemDeleted','todoItemCompleted']);
+
+function handleClick(){
+    console.log("Click!");
+    emit('todoItemDeleted');
+}
+
+function handleChange(event){
+    emit('todoItemCompleted',event.target.checked);
+}
+
 </script>
 
 <template>
-
     <div class="grid-container">
-        <div class="grid-item-checkbox"><input type="checkbox" :checked="completed" /></div>
+        <div class="grid-item-checkbox"><input type="checkbox" :checked="completed" @change="handleChange"/></div>
         <div class="grid-item-title"><h2>{{ title }}</h2></div>
-        <button class="grid-item-btn">Delete</button>
+        <button class="grid-item-btn" @click="handleClick">Delete</button>
     </div>
 
 </template>
@@ -51,8 +62,6 @@ defineProps({
     font-family: "Open Sans", sans-serif;
     letter-spacing: 3px;
     box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
-    
-
 }
 
 </style>
