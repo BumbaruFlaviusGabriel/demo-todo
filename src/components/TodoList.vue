@@ -6,7 +6,7 @@ const response = await fetch('https://jsonplaceholder.typicode.com/todos');
 let todos = await response.json();
 todos = todos.slice(0,5);
 const reactiveTodos = ref(todos);
-const text = ref(" ");
+const text = ref("");
 
 function handleTodoItemDeleted(todoItemId){
     console.log(`Item deleted: ${todoItemId}`);
@@ -16,15 +16,13 @@ function handleTodoItemDeleted(todoItemId){
 
 function handleSubmit(){
 
-    const add = {
+    const addNewTodo = {
         completed:false,
-        id:1,
+        id:6,
         title:text.value,
-        userId:1
+        userId:6
     }
-
-    
-    todos.push(add)
+    reactiveTodos.value.push();
 }
 
 function handleTodoItemCompleted(todoItemId,completed){
