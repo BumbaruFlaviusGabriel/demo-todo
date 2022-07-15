@@ -7,6 +7,7 @@ let todos = await response.json();
 todos = todos.slice(0,5);
 const reactiveTodos = ref(todos);
 const text = ref("");
+const id = ref();
 
 function handleTodoItemDeleted(todoItemId){
     console.log(`Item deleted: ${todoItemId}`);
@@ -18,9 +19,9 @@ function handleSubmit(){
 
     const addNewTodo = {
         completed:false,
-        id:6,
+        id:id.value,
         title:text.value,
-        userId:6
+        userId:0
     }
     reactiveTodos.value.push(addNewTodo);
 }
@@ -32,17 +33,11 @@ function handleTodoItemCompleted(todoItemId,completed){
 </script>
 
 <template>
-    <form>
-        <p>
-            <input
-            type="text" v-model="text"/>
-        </p>
+        <p> <label>Title: </label> <input type="text" v-model="text"/> </p>
+        <p> <label>ID: </label> <input type="text" v-model="id"/> </p>
 
-        <p>
-            <button class="btn-add" @click="handleSubmit">Submit</button>
-        </p>
-    </form>
-    
+        <p> <button class="btn-add" @click="handleSubmit">Submit </button> </p>
+
     <div class="todo-list">
         <TodoListItem
             v-for="todo of reactiveTodos"
