@@ -1,13 +1,30 @@
 <script setup>
 import TodoListItem from './TodoListItem.vue';
 import {pushScopeId, ref} from 'vue';
+import axios from 'axios';
+import { Input } from 'postcss';
 
 const response = await fetch('https://jsonplaceholder.typicode.com/todos');
 let todos = await response.json();
 todos = todos.slice(0,5);
 const reactiveTodos = ref(todos);
+
 const text = ref("");
-const id = ref();
+const id = ref("");
+
+let company = ref("");
+let varnew = ref("");
+
+
+async function created(){
+  await axios.get(`http://localhost:8083/company?name=${varnew.value}`)
+    .then(response =>company.value=response.data.data.company)
+    .catch(error => {
+      this.errorMessage = error.message;
+      console.error("There was an error!", error);
+    });
+    console.log(company)
+}
 
 function handleTodoItemDeleted(todoItemId){
     console.log(`Item deleted: ${todoItemId}`);
@@ -35,19 +52,24 @@ function handleTodoItemCompleted(todoItemId,completed){
 <template>
         <p> <label>Title: </label> <input type="text" v-model="text"/> </p>
         <p> <label>ID: </label> <input type="text" v-model="id"/> </p>
-
         <p> <button class="btn-add" @click="handleSubmit">Submit </button> </p>
+
+        <p> <label>Company: </label> <input type="text" v-model="varnew"/> </p>
+        <p> <button class="btn-add" @click="created()">Get Company </button> </p>
+        <p >{{company}}</p>
 
     <div class="todo-list">
         <TodoListItem
             v-for="todo of reactiveTodos"
             :key="todo.id"
             :id="todo.id"
-            :title="todo.title"
+            :name="todo.name"
             :completed="todo.completed"
             @todo-item-deleted="handleTodoItemDeleted(todo.id)"
             @todo-item-completed="completed => handleTodoItemCompleted(todo.id,completed)"
         />
+        <p> Testing...  </p>
+
     </div>
 </template>
 
